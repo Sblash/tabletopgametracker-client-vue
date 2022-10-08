@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^1.0.0",
     "axios-auth-refresh": "^3.3.4",
+    "bootstrap-vue-3": "^0.3.11",
     "core-js": "^3.8.3",
     "televue": "^1.0.0-alpha.1",
     "vue": "^3.2.13",
