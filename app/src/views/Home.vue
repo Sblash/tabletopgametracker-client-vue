@@ -1,16 +1,29 @@
 <template>
   <div class="container">
-    <h2>Welcome to</h2>
-    <h1>Tabletop Game Tracker</h1>
-    <div class="login">
-      <h3>Sign in</h3>
-      <ButtonLogin 
-        mode="callback" 
-        size="large"
-        bot-username="tabletopgamestracker_bot" 
-        @callback="onTelegramAuth"
-      />
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Welcome to</h2>
+        <h1>Tabletop Game Tracker</h1>
+      </div>
     </div>
+    
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="login">
+          <h3>Sign in</h3>
+          <ButtonLogin 
+            mode="callback" 
+            size="large"
+            bot-username="tabletopgamestracker_bot" 
+            @callback="onTelegramAuth"
+          />
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    
   </div>
 </template>
 
@@ -27,7 +40,6 @@ export default defineComponent({
   },
   methods: {
     onTelegramAuth(user: any) {
-      alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
       const params = {
         telegram_id: user.id,
         username: user.username
@@ -37,7 +49,6 @@ export default defineComponent({
         .post("auth", params)
         .then((response) => {
           const data = response.data;
-          console.log("user_tokens", data);
           this.setItemLocalStorage("user", data);
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access_token;
         })
@@ -55,17 +66,13 @@ export default defineComponent({
 
 <style>
 .container {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 
-.container .login {
+.login {
   background-color: lightgoldenrodyellow;
   border-radius: 20px;
-  margin: auto;
-  width: 400px;
   padding: 16px;
-
+  margin-top: 32px;
 }
 </style>

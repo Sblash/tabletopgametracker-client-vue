@@ -1,5 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../Home.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/Home.vue';
+import Groups from '../views/Groups.vue';
  
 const routes = [
     {
@@ -7,15 +8,19 @@ const routes = [
         name: "home",
         component: Home 
     },
+    {
+        path: '/groups',
+        name: "groups",
+        component: Groups 
+    },
 ]
   
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes, // short for `routes: routes`
+    history: createWebHistory(process.env.BASE_URL),
+    routes
 })
 
 router.beforeEach((to, from, next) => {
-    // console.log(to)
     const userTokens = getFromLocalStorage("user_tokens");
 
     if (userTokens && userTokens.access_token !== undefined) {
@@ -26,9 +31,9 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         // is anonymous
-        if(to.name !== 'home') {
-            next({ name: 'home' });
-        }
+        // if(to.name !== 'home') {
+        //     next({ name: 'home' });
+        // }
 
         next();
     }
