@@ -64,7 +64,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .container {
   text-align: center;
 }
