@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import Group from '../components/Group.vue';
+import Group from '../../components/Group.vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names

@@ -40,19 +40,8 @@ export default defineComponent({
   height: 70px;
 }
 
-.text {
-  display: inline-block;
-}
-
 .group_name {
   font-size: 30px;
   line-height: 2.2;
-}
-
-.separator {
-  float: left;
-  border-right: 1px solid lightgrey;
-  padding-right: 8px;
-  margin-right: 8px;
 }
 </style>
