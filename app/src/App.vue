@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app">
         <Header />
         <router-view></router-view>
     </div>
@@ -18,3 +18,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.app {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+</style>
