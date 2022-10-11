@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import Groups from '../views/Groups.vue';
+import Groups from '../views/Group/Groups.vue';
+import Group from '../views/Group/Group.vue';
  
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: '/groups',
         name: "groups",
         component: Groups 
+    },
+    {
+        path: '/group/:slug',
+        name: "group",
+        component: Group
     },
 ]
   
