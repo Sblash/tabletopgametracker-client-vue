@@ -1,7 +1,8 @@
 <template>
-  <div class="row">
-    <div class="col-md-12">
-        
+  <div class="row group" @click="goToGroup(group.slug)">
+    <div class="col-md-12 text">
+      <div class="separator"><img class="group_img" src="https://via.placeholder.com/500x499" /></div>
+      <span class="group_name">{{ group.name }}</span>
     </div>
   </div>
 </template>
@@ -12,13 +13,46 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Group',
-  components: {
-
+  props: {
+    group: Object
+  },
+  methods: {
+    goToGroup(slug: string) {
+      this.$router.push("/group/" + slug);
+    }
   }
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.group {
+  border-radius: 20px;
+  background-color: lightgoldenrodyellow;
+  box-shadow: 1px 1px 5px;
+  padding: 8px;
+  max-height: 90px;
+}
 
+.group_img {
+  border-radius: 50px;
+  width: 70px;
+  height: 70px;
+}
+
+.text {
+  display: inline-block;
+}
+
+.group_name {
+  font-size: 30px;
+  line-height: 2.2;
+}
+
+.separator {
+  float: left;
+  border-right: 1px solid lightgrey;
+  padding-right: 8px;
+  margin-right: 8px;
+}
 </style>

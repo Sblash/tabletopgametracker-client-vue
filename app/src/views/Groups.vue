@@ -1,12 +1,15 @@
 <template>
-    <div>
-        <h1>dshsajkdhsaj</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <Group :group="group" v-for="group in groups" :key="group" />
+      </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
+import Group from '../components/Group.vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -17,14 +20,16 @@ export default defineComponent({
     }
   },
   components: {
-    
+    Group
   },
   methods: {
     getGroups() {
       axios
         .get("groups")
         .then((response) => {
-          this.groups = response.data;
+          if (response.data.success) {
+            this.groups = response.data.groups;
+          }
         })
         .catch((error) => {
           console.log("ERROR_groups", error);
