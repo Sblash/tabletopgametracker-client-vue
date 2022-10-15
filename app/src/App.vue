@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <Header />
+        <Header v-if="!isLoginPage"/>
         <router-view></router-view>
     </div>
 </template>
@@ -15,6 +15,12 @@ export default defineComponent({
   components: {
     RouterView,
     Header
+  },
+  computed: {
+    isLoginPage() {
+      let path = window.location.pathname;
+      return path == "/";
+    }
   }
 });
 </script>
