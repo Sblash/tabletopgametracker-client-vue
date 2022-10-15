@@ -4,7 +4,7 @@ services:
   app:
     image: node:latest
     tty: true
-    restart: always
+    restart: on-failure:5
     working_dir: /home/tabletoptracker-client-vue/app
     entrypoint: /entrypoint.sh
     ports:
