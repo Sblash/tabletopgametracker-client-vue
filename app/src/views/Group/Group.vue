@@ -47,7 +47,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.group_slug = this.$route.params.slug;
+    this.group_slug = String(this.$route.params.slug);
     this.getGames(this.group_slug);
   }
 });
