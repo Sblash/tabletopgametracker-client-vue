@@ -40,6 +40,7 @@ export default defineComponent({
   box-shadow: 1px 1px 5px;
   padding: 8px;
   max-height: 90px;
+  cursor: pointer;
 }
 
 .game_img {

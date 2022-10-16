@@ -18,6 +18,10 @@ const routes = [
         path: '/group/:slug',
         name: "group",
         component: Group
+    },{
+        path: '/group/create',
+        name: "group",
+        component: Group
     },
 ]
   
