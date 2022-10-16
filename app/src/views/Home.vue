@@ -49,7 +49,7 @@ export default defineComponent({
         .post("auth", params)
         .then((response) => {
           const data = response.data;
-          this.setItemLocalStorage("user", data);
+          this.setItemLocalStorage("user_tokens", data);
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access_token;
         })
         .catch((error) => {
