@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <Header v-if="!isLoginPage"/>
+        <Header v-if="pathname !== '/'"/>
         <router-view></router-view>
     </div>
 </template>
@@ -16,10 +16,14 @@ export default defineComponent({
     RouterView,
     Header
   },
-  computed: {
-    isLoginPage() {
-      let path = window.location.pathname;
-      return path == "/";
+  data() {
+    return {
+      pathname: ""
+    }
+  },
+  watch: {
+    '$route'(currentRoute) {
+      this.pathname = currentRoute.path;
     }
   }
 });
