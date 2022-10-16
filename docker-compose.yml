@@ -4,13 +4,22 @@ services:
   app:
     image: node:latest
     tty: true
-    restart: on-failure:5
+    restart: unless-stopped
     working_dir: /home/tabletoptracker-client-vue/app
     entrypoint: /entrypoint.sh
     ports:
-      - ${CLIENT_PORT}:80
       - ${CLIENT_PORT_DEV}:8080
     volumes:
       - ./:/home/tabletoptracker-client-vue
       - ./entrypoint.sh:/entrypoint.sh
+  
+  nginx:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - ${CLIENT_PORT}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./app/dist:/home/dist
     
