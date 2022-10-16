@@ -52,7 +52,7 @@ export default defineComponent({
           this.setItemLocalStorage("user_tokens", data);
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access_token;
 
-          this.$router.push({ name: "groups"});
+          window.location.reload();
         })
         .catch((error) => {
           console.log("ERROR_login", error);
