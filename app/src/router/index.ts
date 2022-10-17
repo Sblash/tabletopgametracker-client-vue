@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Groups from '../views/Group/Groups.vue';
 import Group from '../views/Group/Group.vue';
+import CreateGroup from '../views/Group/CreateGroup.vue';
  
 const routes = [
     {
@@ -15,14 +16,15 @@ const routes = [
         component: Groups 
     },
     {
-        path: '/group/:slug',
-        name: "group",
-        component: Group
-    },{
-        path: '/group/create',
-        name: "group",
+        path: "/group/details/:slug",
+        name: "details-group",
         component: Group
     },
+    {
+        path: '/group/create',
+        name: "create-group",
+        component: CreateGroup
+    }
 ]
   
 const router = createRouter({

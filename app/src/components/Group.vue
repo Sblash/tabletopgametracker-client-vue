@@ -18,7 +18,7 @@ export default defineComponent({
   },
   methods: {
     goToGroup(slug: string) {
-      this.$router.push("/group/" + slug);
+      this.$router.push("/group/details/" + slug);
     }
   }
 });
