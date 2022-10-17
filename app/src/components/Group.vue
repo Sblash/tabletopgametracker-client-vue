@@ -33,6 +33,7 @@ export default defineComponent({
   padding: 8px;
   max-height: 90px;
   cursor: pointer;
+  margin-bottom: 16px;
 }
 
 .group_img {
