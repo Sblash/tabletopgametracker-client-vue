@@ -56,6 +56,7 @@ export default defineComponent({
 
 button:first-child {
   margin-right: 16px;
+  margin-bottom: 8px;
 }
 
 /* #menu {
