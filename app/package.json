@@ -8,9 +8,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "axios": "^1.0.0",
     "axios-auth-refresh": "^3.3.4",
-    "bootstrap-vue-3": "^0.3.11",
+    "bootstrap": "^5.2.2",
+    "bootstrap-vue-3": "^0.3.12",
     "core-js": "^3.8.3",
     "televue": "^1.0.0-alpha.1",
     "vue": "^3.2.13",
