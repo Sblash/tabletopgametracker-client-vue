@@ -3,12 +3,12 @@ import App from './App.vue';
 import router from './router';
 import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import BootstrapVue3 from 'bootstrap-vue-3'
+import BootstrapVue3 from 'bootstrap-vue-3';
 
 //CSS
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-import './assets/global.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
+import './assets/global.css';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_BASE_URL + "api/";
