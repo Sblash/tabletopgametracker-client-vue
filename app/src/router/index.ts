@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Groups from '../views/Group/Groups.vue';
 import Group from '../views/Group/Group.vue';
 import CreateGroup from '../views/Group/CreateGroup.vue';
+import CreateGame from '../views/Game/CreateGame.vue';
  
 const routes = [
     {
@@ -16,14 +17,19 @@ const routes = [
         component: Groups 
     },
     {
-        path: "/group/details/:slug",
-        name: "details-group",
-        component: Group
-    },
-    {
         path: '/group/create',
         name: "create-group",
         component: CreateGroup
+    },
+    {
+        path: "/group/:slug/games",
+        name: "group-games",
+        component: Group
+    },
+    {
+        path: '/group/:slug/create-game',
+        name: "create-game",
+        component: CreateGame
     }
 ]
   

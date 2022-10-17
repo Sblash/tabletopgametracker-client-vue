@@ -1,6 +1,7 @@
 <template>
     <div class="row">
       <div class="col-md-12">
+        <Adder :path="pathCreate()" :text="text_create"/>
         <Game :game="game" v-for="game in games" :key="game" />
       </div>
     </div>
@@ -9,7 +10,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import Game from '../../components/Game.vue'
+import Game from '../../components/Game.vue';
+import Adder from '../../components/Adder.vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -17,13 +19,18 @@ export default defineComponent({
   data() {
     return {
         games: [],
-        group_slug: ""
+        group_slug: "",
+        text_create: "Crea gioco"
     }
   },
   components: {
-    Game
+    Game,
+    Adder
   },
   methods: {
+    pathCreate() {
+      return "/group/" + this.group_slug + "/create-game";
+    },
     getGames(group_slug: string) {
         axios
             .get("games/" + group_slug)
