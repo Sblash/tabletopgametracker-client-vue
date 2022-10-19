@@ -61,7 +61,16 @@ export default defineComponent({
     setItemLocalStorage(key: string, value: object) {
       localStorage.setItem(key, JSON.stringify(value));
     },
-    
+    fakeLogin() {
+      let obj = {
+        access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTQ0MjY3NTM2LCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2NjYwMzYwOTMsImV4cCI6MTY2NjAzNjk5M30.Op6OY4HCm-enm66wFaIGl2LQNTPO9x5dnuJwlZzcDco",
+        refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbV9pZCI6MTQ0MjY3NTM2LCJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE2NjYwMzYwOTMsImV4cCI6MTY3NDY3NjA5M30.iJGyhwnsOcdeZFVPhIO-e_Wb6PCbFrPqx4heNuRWzS4"
+      }
+      this.setItemLocalStorage("user_tokens", obj)
+    }
+  },
+  created() {
+    this.fakeLogin()
   }
 });
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div class="row game" @click="goToGame(game.slug)">
+  <div class="row page" @click="goToPage(page.slug)">
     <div class="col-md-12 text">
-      <div class="separator"><img class="game_img" :src="getImageUrl" /></div>
-      <span class="game_name">{{ game.name }}</span>
+      <div class="separator"><img class="page_img" :src="getImageUrl" /></div>
+      <span class="page_name">{{ page.name }}</span>
     </div>
   </div>
 </template>
@@ -12,21 +12,21 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Game',
+  name: 'Page',
   props: {
-    game: Object
+    page: Object
   },
   computed: {
     getImageUrl() {
-      if (this.game && this.game.profile_pic !== "") {
-        return this.game.profile_pic;
+      if (this.page && this.page.profile_pic !== "") {
+        return this.page.profile_pic;
       }
       return "https://via.placeholder.com/500x499";
     }
   },
   methods: {
-    goToGame(slug: string) {
-      this.$router.push("/game/" + slug + "/pages");
+    goToPage(slug: string) {
+      this.$router.push("/page/" + slug);
     }
   }
 });
@@ -34,7 +34,7 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.game {
+.page {
   border-radius: 20px;
   background-color: lightgoldenrodyellow;
   box-shadow: 1px 1px 5px;
@@ -44,13 +44,13 @@ export default defineComponent({
   margin-bottom: 16px;
 }
 
-.game_img {
+.page_img {
   border-radius: 50px;
   width: 70px;
   height: 70px;
 }
 
-.game_name {
+.page_name {
   font-size: 30px;
   line-height: 2.2;
 }

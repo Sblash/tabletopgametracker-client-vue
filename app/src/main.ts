@@ -15,6 +15,10 @@ axios.defaults.baseURL = process.env.VUE_APP_BACKEND_BASE_URL + "api/";
 
 const userTokens = getFromLocalStorage("user_tokens");
 
+if (userTokens) {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + userTokens.access_token;
+}
+
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
@@ -40,7 +44,7 @@ const refreshAuthLogic = (failedRequest: any) => axios.post(
     }
 ).then(tokenRefreshResponse => {
     userTokens.access_token = tokenRefreshResponse.data.access_token
-    setItemLocalStorage("user", userTokens);
+    setItemLocalStorage("user_tokens", userTokens);
     failedRequest.response.config.headers['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.access_token;
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.access_token;
     return Promise.resolve();

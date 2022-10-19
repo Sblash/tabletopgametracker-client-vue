@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Groups from '../views/Group/Groups.vue';
 import Group from '../views/Group/Group.vue';
+import Game from '../views/Game/Game.vue';
 import CreateGroup from '../views/Group/CreateGroup.vue';
 import CreateGame from '../views/Game/CreateGame.vue';
  
@@ -30,6 +31,11 @@ const routes = [
         path: '/group/:slug/create-game',
         name: "create-game",
         component: CreateGame
+    },
+    {
+        path: '/game/:slug/pages',
+        name: "game-pages",
+        component: Game
     }
 ]
   
