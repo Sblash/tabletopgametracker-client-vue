@@ -1,6 +1,7 @@
 <template>
     <div class="row">
       <div class="col-md-12">
+        <Adder :path="pathCreate()" :text="text_create"/>
         <Page :page="page" v-for="page in pages" :key="page" />
       </div>
     </div>
@@ -10,6 +11,7 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import Page from '../../components/Page.vue'
+import Adder from '../../components/Adder.vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -17,13 +19,18 @@ export default defineComponent({
   data() {
     return {
         pages: [],
-        game_slug: ""
+        game_slug: "",
+        text_create: "Crea pagina"
     }
   },
   components: {
-    Page
+    Page,
+    Adder
   },
   methods: {
+    pathCreate() {
+      return "/game/" + this.game_slug + "/create-page";
+    },
     getPages(game_slug: string) {
         axios
             .get("pages/" + game_slug)
