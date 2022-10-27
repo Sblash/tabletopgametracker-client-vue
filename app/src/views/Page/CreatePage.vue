@@ -31,7 +31,7 @@ import { BModal } from 'bootstrap-vue-3';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'CreateGame',
+  name: 'CreatePage',
   data() {
     return {
       game: {

@@ -36,7 +36,12 @@ const routes = [
         path: '/game/:slug/pages',
         name: "game-pages",
         component: Game
-    }
+    },
+    {
+        path: '/game/:slug/create-page',
+        name: "create-page",
+        component: CreatePage
+    },
 ]
   
 const router = createRouter({
