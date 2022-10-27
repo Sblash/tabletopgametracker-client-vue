@@ -2,10 +2,25 @@
     <div class="row">
       <div class="row">
         <div class="col-md-12">
+          <h3>Dettagli</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Nome pagina</span>
             <input v-model="page.name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Struttura</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <Structurer />
         </div>
       </div>
       <div class="row">
@@ -23,7 +38,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import { BModal } from 'bootstrap-vue-3';
+import Structurer from '../../components/Structurer.vue';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -40,7 +55,7 @@ export default defineComponent({
     }
   },
   components: {
-    BModal
+    Structurer
   },
   methods: {
     createPage() {
@@ -79,5 +94,9 @@ export default defineComponent({
 <style scoped>
 .modal-title {
   color: white !important;
+}
+
+h3 {
+  border-bottom: 1px solid black;
 }
 </style>
