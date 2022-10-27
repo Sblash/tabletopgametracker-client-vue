@@ -5,6 +5,7 @@ import Group from '../views/Group/Group.vue';
 import Game from '../views/Game/Game.vue';
 import CreateGroup from '../views/Group/CreateGroup.vue';
 import CreateGame from '../views/Game/CreateGame.vue';
+import CreatePage from '../views/Page/CreatePage.vue';
  
 const routes = [
     {

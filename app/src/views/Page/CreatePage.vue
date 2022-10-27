@@ -3,18 +3,14 @@
       <div class="row">
         <div class="col-md-12">
           <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Nome gioco</span>
-            <input v-model="game.name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Img gioco</span>
-            <input v-model="game.profile_pic" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <span class="input-group-text" id="inputGroup-sizing-default">Nome pagina</span>
+            <input v-model="page.name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button type="button" class="btn btn-outline-primary" @click="createGame()"><i class="bi bi-save"></i> Crea</button>
+          <button type="button" class="btn btn-outline-primary" @click="createPage()"><i class="bi bi-save"></i> Crea</button>
         </div>
       </div>
 
@@ -34,10 +30,9 @@ export default defineComponent({
   name: 'CreatePage',
   data() {
     return {
-      game: {
+      page: {
         name: "",
-        profile_pic: "",
-        group_slug: ""
+        game_slug: ""
       },
       message: "",
       headerBgVariant: "success",
@@ -48,20 +43,20 @@ export default defineComponent({
     BModal
   },
   methods: {
-    createGame() {
+    createPage() {
       axios
-        .post("games/create", this.game)
+        .post("pages/create", this.page)
         .then((response) => {
           if (response.data.success) {
-            this.message = "Gioco creato con successo.";
+            this.message = "pagina creata con successo.";
           } else {
-            this.message = "Errore durante la creazione del gioco.";
+            this.message = "Errore durante la creazione della pagina.";
           }
           this.showModal = true;
         })
         .catch((error) => {
-          console.log("ERROR_game", error);
-          this.message = "Errore durante la creazione del gioco. " + JSON.stringify(error);
+          console.log("ERROR_page", error);
+          this.message = "Errore durante la creazione della pagina. " + JSON.stringify(error);
           this.headerBgVariant = "warning";
           this.showModal = true;
         });
@@ -72,11 +67,11 @@ export default defineComponent({
   },
   watch: {
     '$route'(currentRoute) {
-      this.game.group_slug = currentRoute.params.slug;
+      this.page.game_slug = currentRoute.params.slug;
     }
   },
   created() {
-    this.game.group_slug = String(this.$route.params.slug);
+    this.page.game_slug = String(this.$route.params.slug);
   }
 });
 </script>
