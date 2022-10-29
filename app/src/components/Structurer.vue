@@ -22,33 +22,42 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Structure, Row, Col, Element} from '../interfaces/Structure';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Structurer',
   data() {
+    const structure: Structure = {
+      rows: []
+    };
+
     return {
-      structure: {
-        rows: []
-      }
+      structure: structure
     }
   },
   methods: {
     addRow() {
-      const row = {
+      const row: Row = {
         cols: []
       };
+      
       this.structure.rows.push(row);
     },
     addColumn(index: number) {
-      const col = {
+      const col: Col = {
         elements: []
       };
 
       this.structure.rows[index].cols.push(col);
     },
     addElement(rowIndex: number, colIndex: number) {
-      const element = {};
+      const element: Element = {
+        name: "",
+        type: "",
+        page_slug: ""
+      };
+
       this.structure.rows[rowIndex].cols[colIndex].elements.push(element);
     },
     getClass(rowIndex: number) {
