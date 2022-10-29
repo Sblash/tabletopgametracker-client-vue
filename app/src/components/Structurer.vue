@@ -11,9 +11,11 @@
           <span>Aggiungi colonna</span>
         </div>
         <div class="col_structure" :class="getClass(rowIndex)" v-for="(col, colIndex) in structure.rows[rowIndex].cols" :key="col">
-          <div class="add_button margin_bottom" @click="addElement(rowIndex, colIndex)">
+          <div class="add_button margin_bottom" @click="addElement(rowIndex, colIndex)" v-if="this.structure.rows[rowIndex].cols[colIndex].elements.length < 1">
             <span>Aggiungi elemento</span>
           </div>
+          <ElementConstructor v-for="element in structure.rows[rowIndex].cols[colIndex].elements" :key="element"/>
+          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteElement(rowIndex, colIndex)" v-if="this.structure.rows[rowIndex].cols[colIndex].elements.length > 0"><i class="bi bi-trash-fill"></i> Elimina elemento</button>
         </div>
       </div>
     </div>
@@ -23,6 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Structure, Row, Col, Element} from '../interfaces/Structure';
+import ElementConstructor from '../components/ElementConstructor.vue'
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -36,12 +39,15 @@ export default defineComponent({
       structure: structure
     }
   },
+  components: {
+    ElementConstructor
+  },
   methods: {
     addRow() {
       const row: Row = {
         cols: []
       };
-      
+
       this.structure.rows.push(row);
     },
     addColumn(index: number) {
@@ -64,6 +70,9 @@ export default defineComponent({
       const arrayColsSize = this.structure.rows[rowIndex].cols.length;
       let cols = 12 / arrayColsSize
       return "col-md-" + cols;
+    },
+    deleteElement(rowIndex: number, colIndex: number) {
+      this.structure.rows[rowIndex].cols[colIndex].elements.splice(0, 1);
     }
   }
 });
@@ -105,5 +114,9 @@ export default defineComponent({
   border-radius: 10px;
   margin-bottom: 16px;
   padding: 8px;
+}
+
+.delete-button {
+  margin-top: 16px;
 }
 </style>
