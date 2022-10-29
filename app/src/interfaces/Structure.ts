@@ -13,5 +13,5 @@ export interface Col {
 export interface Element {
     name: string,
     type: string,
-    page_slug: string
+    page_slug: string | undefined
 }
