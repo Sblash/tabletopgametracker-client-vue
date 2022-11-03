@@ -16,9 +16,9 @@
           </div>
           <ElementConstructor @element="updateElement" :row_index="row_index" :col_index="col_index" v-for="element in structure.rows[row_index].cols[col_index].elements" :key="element"/>
           <button type="button" class="btn btn-outline-danger delete-button" @click="deleteElement(row_index, col_index)" v-if="this.structure.rows[row_index].cols[col_index].elements.length > 0"><i class="bi bi-trash-fill"></i> Elimina elemento</button>
-          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteCol(row_index, col_index)" v-if="this.structure.rows[row_index].cols.length > 0"><i class="bi bi-trash-fill"></i> Elimina Colonna</button>
+          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteCol(row_index, col_index)" v-if="this.structure.rows[row_index].cols.length > 0"><i class="bi bi-trash-fill"></i> Elimina colonna</button>
         </div>
-        <button type="button" class="btn btn-outline-danger delete-button" @click="deleteRow(row_index)" v-if="this.structure.rows.length > 0"><i class="bi bi-trash-fill"></i> Elimina Riga</button>
+        <button type="button" class="btn btn-outline-danger delete-button" @click="deleteRow(row_index)" v-if="this.structure.rows.length > 0"><i class="bi bi-trash-fill"></i> Elimina riga</button>
       </div>
     </div>
   </div>
