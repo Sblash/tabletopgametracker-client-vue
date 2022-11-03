@@ -6,17 +6,19 @@
           <span>Aggiungi riga</span>
         </div>
       </div>
-      <div class="row row_strucure" v-for="(row, rowIndex) in structure.rows" :key="row">
-        <div class="col-md-12 add_button margin_bottom" @click="addColumn(rowIndex)" v-if="this.structure.rows[rowIndex].cols.length < 3">
+      <div class="row row_strucure" v-for="(row, row_index) in structure.rows" :key="row">
+        <div class="col-md-12 add_button margin_bottom" @click="addColumn(row_index)" v-if="this.structure.rows[row_index].cols.length < 3">
           <span>Aggiungi colonna</span>
         </div>
-        <div class="col_structure" :class="getClass(rowIndex)" v-for="(col, colIndex) in structure.rows[rowIndex].cols" :key="col">
-          <div class="add_button margin_bottom" @click="addElement(rowIndex, colIndex)" v-if="this.structure.rows[rowIndex].cols[colIndex].elements.length < 1">
+        <div class="col_structure" :class="getClass(row_index)" v-for="(col, col_index) in structure.rows[row_index].cols" :key="col">
+          <div class="add_button margin_bottom" @click="addElement(row_index, col_index)" v-if="this.structure.rows[row_index].cols[col_index].elements.length < 1">
             <span>Aggiungi elemento</span>
           </div>
-          <ElementConstructor v-for="element in structure.rows[rowIndex].cols[colIndex].elements" :key="element"/>
-          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteElement(rowIndex, colIndex)" v-if="this.structure.rows[rowIndex].cols[colIndex].elements.length > 0"><i class="bi bi-trash-fill"></i> Elimina elemento</button>
+          <ElementConstructor @element="updateElement" :row_index="row_index" :col_index="col_index" v-for="element in structure.rows[row_index].cols[col_index].elements" :key="element"/>
+          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteElement(row_index, col_index)" v-if="this.structure.rows[row_index].cols[col_index].elements.length > 0"><i class="bi bi-trash-fill"></i> Elimina elemento</button>
+          <button type="button" class="btn btn-outline-danger delete-button" @click="deleteCol(row_index, col_index)" v-if="this.structure.rows[row_index].cols.length > 0"><i class="bi bi-trash-fill"></i> Elimina Colonna</button>
         </div>
+        <button type="button" class="btn btn-outline-danger delete-button" @click="deleteRow(row_index)" v-if="this.structure.rows.length > 0"><i class="bi bi-trash-fill"></i> Elimina Riga</button>
       </div>
     </div>
   </div>
@@ -49,6 +51,7 @@ export default defineComponent({
       };
 
       this.structure.rows.push(row);
+      this.$emit('structure', this.structure);
     },
     addColumn(index: number) {
       const col: Col = {
@@ -56,23 +59,43 @@ export default defineComponent({
       };
 
       this.structure.rows[index].cols.push(col);
+      this.$emit('structure', this.structure);
     },
-    addElement(rowIndex: number, colIndex: number) {
+    addElement(row_index: number, col_index: number) {
       const element: Element = {
         name: "",
         type: "",
-        page_slug: ""
+        page_slug: "",
+        row_index: row_index,
+        col_index: col_index
       };
 
-      this.structure.rows[rowIndex].cols[colIndex].elements.push(element);
+      this.structure.rows[row_index].cols[col_index].elements.push(element);
+      this.$emit('structure', this.structure);
     },
-    getClass(rowIndex: number) {
-      const arrayColsSize = this.structure.rows[rowIndex].cols.length;
+    getClass(row_index: number) {
+      const arrayColsSize = this.structure.rows[row_index].cols.length;
       let cols = 12 / arrayColsSize
       return "col-md-" + cols;
     },
-    deleteElement(rowIndex: number, colIndex: number) {
-      this.structure.rows[rowIndex].cols[colIndex].elements.splice(0, 1);
+    deleteElement(row_index: number, col_index: number) {
+      this.structure.rows[row_index].cols[col_index].elements.splice(0, 1);
+      this.$emit('structure', this.structure);
+    },
+    deleteCol(row_index: number, col_index: number) {
+      this.structure.rows[row_index].cols.splice(col_index, 1);
+      this.$emit('structure', this.structure);
+    },
+    deleteRow(row_index: number) {
+      this.structure.rows.splice(row_index, 1);
+      this.$emit('structure', this.structure);
+    },
+    updateElement(value: Element) {
+      const row_index: number = value.row_index ? value.row_index : 0;
+      const col_index: number = value.col_index ? value.col_index : 0;
+      this.structure.rows[row_index].cols[col_index].elements[0].name = value.name;
+      this.structure.rows[row_index].cols[col_index].elements[0].type = value.type;
+      this.$emit('structure', this.structure);
     }
   }
 });

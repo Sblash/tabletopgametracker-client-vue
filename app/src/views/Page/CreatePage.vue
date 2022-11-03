@@ -20,7 +20,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <Structurer />
+          <Structurer @structure="updateStructure"/>
         </div>
       </div>
       <div class="row">
@@ -39,6 +39,7 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import Structurer from '../../components/Structurer.vue';
+import { Structure } from '../../interfaces/Structure';
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -47,7 +48,8 @@ export default defineComponent({
     return {
       page: {
         name: "",
-        game_slug: ""
+        game_slug: "",
+        structure: {}
       },
       message: "",
       headerBgVariant: "success",
@@ -78,6 +80,10 @@ export default defineComponent({
     },
     onHidden() {
       this.$router.back();
+    },
+    updateStructure(value: Structure) {
+      console.log(value)
+      this.page.structure = value;
     }
   },
   watch: {

@@ -14,4 +14,6 @@ export interface Element {
     name: string,
     type: string,
     page_slug: string | undefined
+    row_index: number | undefined
+    col_index: number | undefined
 }
