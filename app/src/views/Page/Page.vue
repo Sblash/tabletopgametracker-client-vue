@@ -30,12 +30,13 @@ export default defineComponent({
     const structure: Structure = {
       rows: []
     };
+    let elements: any = {};
     return {
       page: {
         structure: structure
       },
       page_slug: "",
-      elements: {}
+      elements: elements
     }
   },
   methods: {
