@@ -65,7 +65,7 @@ export default defineComponent({
         .post("pages/create", this.page)
         .then((response) => {
           if (response.data.success) {
-            this.message = "pagina creata con successo.";
+            this.createElements(response.data.page.slug);
           } else {
             this.message = "Errore durante la creazione della pagina.";
           }
@@ -73,7 +73,30 @@ export default defineComponent({
         })
         .catch((error) => {
           console.log("ERROR_page", error);
-          this.message = "Errore durante la creazione della pagina. " + JSON.stringify(error);
+          this.message = "[ERROR_page] Errore durante la creazione della pagina. " + JSON.stringify(error);
+          this.headerBgVariant = "warning";
+          this.showModal = true;
+        });
+    },
+    createElements(page_slug: string) {
+      let params = {
+        page_slug: page_slug,
+        structure: this.page.structure
+      };
+
+      axios
+        .post("elements/create-from-structure", params)
+        .then((response) => {
+          if (response.data.success) {
+            this.message = "pagina creata con successo.";
+          } else {
+            this.message = "Errore durante la creazione della pagina.";
+          }
+          this.showModal = true;
+        })
+        .catch((error) => {
+          console.log("ERROR_page_elements", error);
+          this.message = "[ERROR_page_elements] Errore durante la creazione della pagina. " + JSON.stringify(error);
           this.headerBgVariant = "warning";
           this.showModal = true;
         });
@@ -82,7 +105,6 @@ export default defineComponent({
       this.$router.back();
     },
     updateStructure(value: Structure) {
-      console.log(value)
       this.page.structure = value;
     }
   },
