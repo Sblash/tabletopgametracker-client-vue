@@ -65,7 +65,7 @@ export default defineComponent({
       const element: Element = {
         name: "",
         type: "",
-        page_slug: "",
+        slug: "",
         row_index: row_index,
         col_index: col_index
       };
@@ -95,6 +95,7 @@ export default defineComponent({
       const col_index: number = value.col_index ? value.col_index : 0;
       this.structure.rows[row_index].cols[col_index].elements[0].name = value.name;
       this.structure.rows[row_index].cols[col_index].elements[0].type = value.type;
+      this.structure.rows[row_index].cols[col_index].elements[0].slug = value.slug;
       this.$emit('structure', this.structure);
     }
   }
