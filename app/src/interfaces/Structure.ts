@@ -17,3 +17,15 @@ export interface Element {
     row_index: number | undefined,
     col_index: number | undefined
 }
+
+export interface ElementData {
+    name: string,
+    type: string,
+    slug: string,
+    datas: Array<Data>
+}
+
+export interface Data {
+    id: number | undefined,
+    value: any
+}
