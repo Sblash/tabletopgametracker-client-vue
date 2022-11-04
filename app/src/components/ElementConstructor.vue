@@ -21,7 +21,6 @@ import { Element} from '../interfaces/Structure';
 export default defineComponent({
   name: 'ElementConstructor',
   props: {
-    page_slug: String,
     row_index: Number,
     col_index: Number
   },
@@ -29,7 +28,7 @@ export default defineComponent({
     let element: Element = {
       name: "",
       type: "",
-      page_slug: this.page_slug,
+      slug: "",
       row_index: this.row_index,
       col_index: this.col_index
     };
@@ -40,7 +39,14 @@ export default defineComponent({
   },
   methods: {
     update() {
+      this.element.slug = this.getSlug(this.element.name);
       this.$emit('element', this.element);
+    },
+    getSlug(value: string) {
+      let slug = value.toLowerCase().trim();
+      slug = slug.replace(/ /gi, "_");
+
+      return slug;
     }
   }
 })
