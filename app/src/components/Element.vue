@@ -101,7 +101,11 @@ export default defineComponent({
       axios
         .post("datas/create", params)
         .then((response) => {
-          if (!response.data.success) {
+          if (response.data.success) {
+            let dataCreated: Data = response.data.data;
+            let lastIndex = this.datas.length - 1;
+            this.datas[lastIndex].id = dataCreated.id;
+          } else {
             alert(response.data.message);
             this.$router.back();
           }
