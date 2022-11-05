@@ -27,18 +27,18 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    if(error.config.url.includes('refresh-token')) {
-        removeItemLocalStorage("user_tokens");
-        window.location.reload();
+    if (error.config) {
+        if(error.config.url.includes('refresh-token')) {
+            removeItemLocalStorage("user_tokens");
+            window.location.reload();
+        }
     }
 
     return Promise.reject(error);
 });
 
   // Function that will be called to refresh authorization
-const refreshAuthLogic = (failedRequest: any) => axios.post(
-    'refresh-token',
-    {},
+const refreshAuthLogic = (failedRequest: any) => axios.post('auth/refresh', {},
     {
       headers: {'Authorization': 'Bearer ' + userTokens.refresh_token}
     }
@@ -47,6 +47,7 @@ const refreshAuthLogic = (failedRequest: any) => axios.post(
     setItemLocalStorage("user_tokens", userTokens);
     failedRequest.response.config.headers['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.access_token;
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenRefreshResponse.data.access_token;
+    window.location.reload();
     return Promise.resolve();
 }).catch(error => {
     removeItemLocalStorage("user_tokens");
