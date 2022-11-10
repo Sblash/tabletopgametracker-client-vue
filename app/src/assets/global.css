@@ -12,3 +12,11 @@ body {
 .text {
     display: inline-block;
 }
+
+.row > * {
+    margin-left: 0px;
+}
+
+.title_section {
+    border-bottom: 1px solid black;
+}
