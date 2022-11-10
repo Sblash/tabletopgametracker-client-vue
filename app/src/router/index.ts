@@ -67,9 +67,9 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         // is anonymous
-        // if(to.name !== 'home') {
-        //     next({ name: 'home' });
-        // }
+        if(to.name !== 'home') {
+            next({ name: 'home' });
+        }
 
         next();
     }
