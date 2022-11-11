@@ -26,11 +26,13 @@ export default defineComponent({
   data() {
     let users: Array<User> = [];
     let users_searched: Array<User> = [];
+    let timer: any;
 
     return {
       users: users,
       users_searched: users_searched,
-      username: ""
+      username: "",
+      timer: timer
     }
   },
   methods: {
