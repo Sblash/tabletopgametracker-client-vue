@@ -1,7 +1,6 @@
 <template>
   <div class="row page" @click="goToPage(page.slug)">
     <div class="col-md-12 text">
-      <div class="separator"><img class="page_img" :src="getImageUrl" /></div>
       <span class="page_name">{{ page.name }}</span>
     </div>
   </div>
@@ -15,14 +14,6 @@ export default defineComponent({
   name: 'Page',
   props: {
     page: Object
-  },
-  computed: {
-    getImageUrl() {
-      if (this.page && this.page.profile_pic !== "") {
-        return this.page.profile_pic;
-      }
-      return "https://via.placeholder.com/500x499";
-    }
   },
   methods: {
     goToPage(slug: string) {
@@ -44,14 +35,8 @@ export default defineComponent({
   margin-bottom: 16px;
 }
 
-.page_img {
-  border-radius: 50px;
-  width: 70px;
-  height: 70px;
-}
-
 .page_name {
-  font-size: 30px;
+  font-size: 25px;
   line-height: 2.2;
 }
 </style>

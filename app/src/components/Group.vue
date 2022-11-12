@@ -43,7 +43,7 @@ export default defineComponent({
 }
 
 .group_name {
-  font-size: 30px;
+  font-size: 25px;
   line-height: 2.2;
 }
 </style>
