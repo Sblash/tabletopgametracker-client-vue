@@ -1,15 +1,21 @@
 <template>
-  <div class="row header">
-    <div class="btn-group" role="group">
-      <div class="col-md-1" v-if="pathname !== '/groups'">
-        <button type="button" class="btn btn-outline-secondary" @click="back()"><i class="bi bi-arrow-left"></i></button>
+  <div class="container-fluid header">
+    <div class="row">
+      <div class="col-md-1 col-auto" v-if="path !== '/groups'">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-outline-secondary" @click="back()"><i class="bi bi-arrow-left"></i></button>
+          <button type="button" class="btn btn-outline-secondary"><router-link to="/groups"><i class="bi bi-house"></i></router-link></button>
+        </div>
       </div>
-      <div class="col-md-11">
-        <router-link to="/groups"><h2>Tabletop game tracker</h2></router-link>
+      <div class="col-md-10 col-5" :class="resizeTitlePage">
+        <h2 class="title-page">{{ getNameFromSlug }}</h2>
       </div>
-      <!-- <div class="col-md-1">
-        <button id="menu" type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#menu-collapse" aria-expanded="false" aria-controls="menu-collapse"></button>
+      <!-- <div class="col-md-1 col-auto" v-if="showMenuButton">
+        <button id="menu" type="button" class="btn btn-outline-secondary menu-button" data-bs-toggle="collapse" data-bs-target="#menu-collapse" aria-expanded="false" aria-controls="menu-collapse"><i class="bi bi-list"></i></button>
       </div> -->
+      <div class="col-md-1 col-auto" v-if="showEditButton">
+        <button type="button" class="btn btn-outline-secondary edit-button" @click="goToEditPage()"><i class="bi bi-pencil"></i></button>
+      </div>
     </div>
     <!-- <div class="collapse" id="menu-collapse">
       <div class="card card-body">
@@ -31,17 +37,52 @@ export default defineComponent({
   },
   data() {
     return {
-      pathname: ""
+      path: "",
+      pathname: "",
+      slug: ""
     }
   },
   watch: {
     '$route'(currentRoute) {
-      this.pathname = currentRoute.path;
+      this.path = currentRoute.path;
+      this.pathname = currentRoute.name;
+      this.slug = currentRoute.params.slug;
+    }
+  },
+  computed: {
+    getNameFromSlug() {
+      if (this.slug && this.slug != "") {
+        return this.slug.replace(/_/gi, " ");
+      }
+
+      return "Tabletop game tracker"
+    },
+    showEditButton() {
+      let routes: Array<string> = [
+        "group-games",
+        "game-pages",
+        "page"
+      ];
+
+      if (routes.includes(this.pathname)) return true;
+
+      return false;
+    },
+    resizeTitlePage() {
+      if (this.path == "/groups") return "col-12";
+      return "";
     }
   },
   methods: {
     back() {
       this.$router.back();
+    },
+    goToEditPage() {
+      switch(this.pathname) {
+        case "page":
+          this.$router.push("/page/" + this.slug + "/edit-page");
+          break;
+      }
     }
   }
 });
@@ -54,14 +95,15 @@ export default defineComponent({
   margin-bottom: 16px;
 }
 
-button:first-child {
-  margin-right: 16px;
+button {
   margin-bottom: 8px;
 }
 
-/* #menu {
-  position: absolute;
-  right: 0;
-  margin-top: 5px;
-} */
+.title-page {
+  text-align: center;
+}
+
+.edit-button {
+  margin-left: 25%;
+}
 </style>
