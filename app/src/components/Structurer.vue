@@ -14,7 +14,7 @@
           <div class="add_button margin_bottom" @click="addElement(row_index, col_index)" v-if="this.structure.rows[row_index].cols[col_index].elements.length < 1">
             <span>Aggiungi elemento</span>
           </div>
-          <ElementConstructor @element="updateElement" :row_index="row_index" :col_index="col_index" v-for="element in structure.rows[row_index].cols[col_index].elements" :key="element"/>
+          <ElementConstructor :existing_element="element" @element="updateElement" :row_index="row_index" :col_index="col_index" v-for="element in structure.rows[row_index].cols[col_index].elements" :key="element"/>
           <button type="button" class="btn btn-outline-danger delete-button" @click="deleteElement(row_index, col_index)" v-if="this.structure.rows[row_index].cols[col_index].elements.length > 0"><i class="bi bi-trash-fill"></i> Elimina elemento</button>
           <button type="button" class="btn btn-outline-danger delete-button" @click="deleteCol(row_index, col_index)" v-if="this.structure.rows[row_index].cols.length > 0"><i class="bi bi-trash-fill"></i> Elimina colonna</button>
         </div>
@@ -25,17 +25,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Structure, Row, Col, Element} from '../interfaces/Structure';
 import ElementConstructor from '../components/ElementConstructor.vue'
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Structurer',
+  props: {
+    existing_structure: Object as PropType<Structure>
+  },
   data() {
-    const structure: Structure = {
+    let structure: Structure = {
       rows: []
     };
+
+    if (this.existing_structure) {
+      structure = this.existing_structure;
+    }
 
     return {
       structure: structure

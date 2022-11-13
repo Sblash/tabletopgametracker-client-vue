@@ -6,6 +6,7 @@ import Game from '../views/Game/Game.vue';
 import CreateGroup from '../views/Group/CreateGroup.vue';
 import CreateGame from '../views/Game/CreateGame.vue';
 import CreatePage from '../views/Page/CreatePage.vue';
+import EditPage from '../views/Page/EditPage.vue';
 import Page from '../views/Page/Page.vue';
  
 const routes = [
@@ -48,6 +49,11 @@ const routes = [
         path: '/page/:slug',
         name: "page",
         component: Page
+    },
+    {
+        path: '/page/:slug/edit-page',
+        name: "edit-page",
+        component: EditPage
     },
 ]
   

@@ -15,14 +15,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Element} from '../interfaces/Structure';
 
 export default defineComponent({
   name: 'ElementConstructor',
   props: {
     row_index: Number,
-    col_index: Number
+    col_index: Number,
+    existing_element: Object as PropType<Element>
   },
   data() {
     let element: Element = {
@@ -32,14 +33,23 @@ export default defineComponent({
       row_index: this.row_index,
       col_index: this.col_index
     };
+    
+    let is_update = false;
+
+    if (this.existing_element) {
+      is_update = true;
+      element = this.existing_element;
+    }
 
     return {
-      element: element
+      element: element,
+      is_update: is_update
     }
   },
   methods: {
     update() {
-      this.element.slug = this.getSlug(this.element.name);
+      //if is not an update then create the slug
+      if (!this.is_update) this.element.slug = this.getSlug(this.element.name);
       this.$emit('element', this.element);
     },
     getSlug(value: string) {
