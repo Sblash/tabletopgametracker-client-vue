@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="col-md-10 col-5" :class="resizeTitlePage">
-        <h2 class="title-page">{{ getNameFromSlug }}</h2>
+        <h2 class="title-page">{{ getNameFromSlug() }}</h2>
       </div>
       <!-- <div class="col-md-1 col-auto" v-if="showMenuButton">
         <button id="menu" type="button" class="btn btn-outline-secondary menu-button" data-bs-toggle="collapse" data-bs-target="#menu-collapse" aria-expanded="false" aria-controls="menu-collapse"><i class="bi bi-list"></i></button>
@@ -50,13 +50,6 @@ export default defineComponent({
     }
   },
   computed: {
-    getNameFromSlug() {
-      if (this.slug && this.slug != "") {
-        return this.slug.replace(/_/gi, " ");
-      }
-
-      return "Tabletop game tracker"
-    },
     showEditButton() {
       let routes: Array<string> = [
         "group-games",
@@ -69,7 +62,7 @@ export default defineComponent({
       return false;
     },
     resizeTitlePage() {
-      if (this.path == "/groups") return "col-12";
+      if (this.path == "/groups") return "col-md-12 col-12";
       return "";
     }
   },
@@ -83,7 +76,14 @@ export default defineComponent({
           this.$router.push("/page/" + this.slug + "/edit-page");
           break;
       }
-    }
+    },
+    getNameFromSlug() {
+      if (this.slug && this.slug != "") {
+        return this.slug.replace(/_/gi, " ");
+      }
+
+      return "Tabletop game tracker"
+    },
   }
 });
 </script>
