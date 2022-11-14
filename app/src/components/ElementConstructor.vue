@@ -36,7 +36,7 @@ export default defineComponent({
     
     let is_update = false;
 
-    if (this.existing_element) {
+    if (this.existing_element && this.existing_element.slug !== "") {
       is_update = true;
       element = this.existing_element;
     }
