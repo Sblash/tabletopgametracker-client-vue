@@ -20,3 +20,8 @@ body {
 .title_section {
     border-bottom: 1px solid black;
 }
+
+/* css label checkbox element */
+.form-check .form-check-label {
+    width: 100% !important;
+  }

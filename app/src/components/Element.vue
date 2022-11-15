@@ -2,15 +2,31 @@
   <div class="row">
     <h3>{{ element.name }}</h3>
     <div v-if="element.type == 'checklist'" class="col-md-12 checklist">
-      <b-form-checkbox
-        v-for="(data, index) in datas"
-        v-model="datas[index].value.value"
-        :key="data"
-        @change="onChangeCheckbox(data.id, element.slug, index)"
-      >
-        {{ data.value.text }}
-      </b-form-checkbox>
-      <button type="button" class="btn btn-outline-primary" @click="openModal">Aggiungi checkbox</button>
+      <div class="checklist-container checklist-false">
+        <h5>Non completati/e</h5>
+        <b-form-checkbox
+          v-for="(data, index) in datasFalse"
+          v-model="datasFalse[index].value.value"
+          :key="data"
+          @change="onChangeCheckbox(data.id, element.slug, data, index)"
+        >
+          {{ data.value.text }}
+          <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+        </b-form-checkbox>
+        <button type="button" class="btn btn-outline-primary button-add-checkbox" @click="openModal">Aggiungi checkbox</button>
+      </div>
+      <div class="checklist-container checklist-true">
+        <h5>Completati/e</h5>
+        <b-form-checkbox
+          v-for="(data, index) in datasTrue"
+          v-model="datasTrue[index].value.value"
+          :key="data"
+          @change="onChangeCheckbox(data.id, element.slug, data, index)"
+        >
+          {{ data.value.text }}
+          <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+        </b-form-checkbox>
+      </div>
     </div>
     <div v-if="element.type == 'text'" class="col-md-12">
       <quill-editor
@@ -44,11 +60,20 @@ export default defineComponent({
   },
   data() {
     let datas: Array<Data> = [];
+    let datasFalse: Array<Data> = [];
+    let datasTrue: Array<Data> = [];
     let timer: any;
 
     if (this.element) {
-      if (this.element.datas.length > 0) {
-        datas = this.element ? this.element.datas : [];
+      if (this.element.datas.length > 0 && this.element.type == "checklist") {
+        datas = this.element.datas;
+        for (let i = 0; i < datas.length; i++) {
+          if (datas[i].value.value) {
+            datasTrue.push(datas[i]);
+          } else {
+            datasFalse.push(datas[i]);
+          }
+        }
       }
 
       if (this.element.datas.length <= 0 && this.element.type == "text") {
@@ -64,6 +89,8 @@ export default defineComponent({
     }
 
     return {
+      datasFalse: datasFalse,
+      datasTrue: datasTrue,
       datas: datas,
       timer: timer,
       showModal: false,
@@ -71,9 +98,15 @@ export default defineComponent({
     }
   },
   methods: {
-    onChangeCheckbox(data_id: number, el_slug: string, index: number) {
-      let obj = this.datas[index].value;
-      this.saveData(data_id, el_slug, obj);
+    onChangeCheckbox(data_id: number, el_slug: string, data: Data, index: number) {
+      if (data.value.value) {
+        this.datasFalse.splice(index, 1);
+        this.datasTrue.push(data);
+      } else {
+        this.datasTrue.splice(index, 1);
+        this.datasFalse.push(data);
+      }
+      this.saveData(data_id, el_slug, data.value);
     },
     onEditorChange(data_id: number, el_slug: string, event: any) {
       let value = {
@@ -103,8 +136,14 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             let dataCreated: Data = response.data.data;
-            let lastIndex = this.datas.length - 1;
-            this.datas[lastIndex].id = dataCreated.id;
+            let lastIndex = this.datasFalse.length - 1;
+            if (lastIndex < 0) lastIndex = 0;
+
+            // if (!this.datas[lastIndex]) this.datas[lastIndex] = {};
+            if (!this.datasFalse[lastIndex]) this.datas[lastIndex] = {};
+
+            // this.datas[lastIndex].id = dataCreated.id;
+            this.datasFalse[lastIndex].id = dataCreated.id;
           } else {
             alert(response.data.message);
             this.$router.back();
@@ -132,6 +171,30 @@ export default defineComponent({
           console.log("ERROR_data", error);
         });
     },
+    deleteData(data: Data, index: number) {
+      let params = {
+        data: {
+          data_id: data.id
+        }
+      };
+
+      axios
+        .delete("datas/delete", params)
+        .then((response) => {
+          if (!response.data.success) {
+            alert(response.data.message);
+          } else {
+            if (data.value.value) {
+              this.datasTrue.splice(index, 1);
+            } else {
+              this.datasFalse.splice(index, 1);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR_delete_data", error);
+        });
+    },
     openModal() {
       this.showModal = true;
     },
@@ -148,7 +211,7 @@ export default defineComponent({
 
       let slug = this.element ? this.element.slug : "";
 
-      this.datas.push(data)
+      this.datasFalse.push(data)
       this.createData(slug, data.value);
     }
   }
@@ -156,4 +219,21 @@ export default defineComponent({
 </script>
 
 <style scoped>
+h5 {
+  color: grey;
+  margin-bottom: 16px;
+}
+
+.button-add-checkbox {
+  margin-top: 16px;
+}
+
+.button-delete-checkbox {
+  float: right;
+}
+
+.checklist-true {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
 </style>
