@@ -140,7 +140,10 @@ export default defineComponent({
             if (lastIndex < 0) lastIndex = 0;
 
             // if (!this.datas[lastIndex]) this.datas[lastIndex] = {};
-            if (!this.datasFalse[lastIndex]) this.datasFalse[lastIndex] = {};
+            if (!this.datasFalse[lastIndex]) this.datasFalse[lastIndex] = {
+              id: undefined,
+              value: false
+            };
 
             // this.datas[lastIndex].id = dataCreated.id;
             this.datasFalse[lastIndex].id = dataCreated.id;
