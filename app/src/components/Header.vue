@@ -71,9 +71,16 @@ export default defineComponent({
       this.$router.back();
     },
     goToEditPage() {
+      console.log(this.pathname)
       switch(this.pathname) {
         case "page":
           this.$router.push("/page/" + this.slug + "/edit-page");
+          break;
+        case "game-pages":
+          this.$router.push("/game/" + this.slug + "/edit-game");
+          break;
+        case "group-games":
+          this.$router.push("/group/" + this.slug + "/edit-group");
           break;
       }
     },

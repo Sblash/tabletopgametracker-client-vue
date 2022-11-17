@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Groups from '../views/Group/Groups.vue';
 import Group from '../views/Group/Group.vue';
-import Game from '../views/Game/Game.vue';
 import CreateGroup from '../views/Group/CreateGroup.vue';
+import EditGroup from '../views/Group/EditGroup.vue';
+import Game from '../views/Game/Game.vue';
 import CreateGame from '../views/Game/CreateGame.vue';
+import EditGame from '../views/Game/EditGame.vue';
 import CreatePage from '../views/Page/CreatePage.vue';
 import EditPage from '../views/Page/EditPage.vue';
 import Page from '../views/Page/Page.vue';
@@ -31,6 +33,11 @@ const routes = [
         component: Group
     },
     {
+        path: '/group/:slug/edit-group',
+        name: "edit-group",
+        component: EditGroup
+    },
+    {
         path: '/group/:slug/create-game',
         name: "create-game",
         component: CreateGame
@@ -39,6 +46,11 @@ const routes = [
         path: '/game/:slug/pages',
         name: "game-pages",
         component: Game
+    },
+    {
+        path: '/game/:slug/edit-game',
+        name: "edit-game",
+        component: EditGame
     },
     {
         path: '/game/:slug/create-page',
