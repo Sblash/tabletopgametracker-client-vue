@@ -6,7 +6,14 @@
         <input v-model="username" @keypress="debounceSearch" type="text" class="form-control" aria-describedby="inputGroup-sizing-default">
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" v-show="username.trim() == ''">
+            <p>Utenti scelti</p>
+            <div class="user" v-for="user in users" :key="user" @click="removeUser(user)">
+                {{ user.username }}
+            </div>
+        </div>
+        <div class="col-md-12" v-show="username.trim() != ''">
+            <p>Utenti trovati</p>
             <div class="user" :class="getPicked(user)" v-for="user in users_searched" :key="user" @click="pickUser(user)">
                 {{ user.username }}
             </div>
@@ -17,16 +24,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { User } from '../interfaces/User';
 import axios from 'axios';
 
 export default defineComponent({
   name: 'UserPicker',
+  props: {
+    existing_users: Object as PropType<Array<User>>
+  },
   data() {
     let users: Array<User> = [];
     let users_searched: Array<User> = [];
     let timer: any;
+
+    if (this.existing_users) {
+      users = this.existing_users;
+    }
 
     return {
       users: users,
@@ -39,7 +53,8 @@ export default defineComponent({
     searchUser() {
         let username = this.username;
 
-        axios
+        if (username && username.trim() !== "") {
+            axios
             .get("users/search-by-username?username=" + username)
             .then((response) => {
                 if (response.data.success) {
@@ -55,17 +70,17 @@ export default defineComponent({
             .catch((error) => {
                 console.log("ERROR_pages", error);
             });
+        }
     },
     pickUser(user: User) {
         user.picked = !user.picked;
         
         if (user.picked) {
             this.users.push(user);
+            this.$emit('usersPicked', this.users);
         } else {
             this.removeUser(user);
         }
-
-        this.$emit('usersPicked', this.users);
     },
     getPicked(user: User) {
         if (user.picked) {
@@ -80,6 +95,8 @@ export default defineComponent({
                 this.users.splice(i, 1);
             }
         }
+
+        this.$emit('usersPicked', this.users);
     },
     isPicked(username: string) {
         for (let i = 0; i<this.users.length; i++) {
