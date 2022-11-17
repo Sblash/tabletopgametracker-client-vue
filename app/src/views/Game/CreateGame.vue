@@ -41,7 +41,8 @@ export default defineComponent({
       },
       message: "",
       headerBgVariant: "success",
-      showModal: false
+      showModal: false,
+      error: false
     }
   },
   components: {
@@ -54,8 +55,12 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "Gioco creato con successo.";
+            this.headerBgVariant = "success";
+            this.error = false;
           } else {
-            this.message = "Errore durante la creazione del gioco.";
+            this.message = "Errore durante la creazione del gioco. Errore:" + response.data.message;
+            this.headerBgVariant = "warning";
+            this.error = true;
           }
           this.showModal = true;
         })
@@ -64,6 +69,7 @@ export default defineComponent({
           this.message = "Errore durante la creazione del gioco. " + JSON.stringify(error);
           this.headerBgVariant = "warning";
           this.showModal = true;
+          this.error = true;
         });
     },
     onHidden() {

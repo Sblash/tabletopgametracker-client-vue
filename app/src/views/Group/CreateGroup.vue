@@ -56,7 +56,8 @@ export default defineComponent({
       },
       message: "",
       headerBgVariant: "success",
-      showModal: false
+      showModal: false,
+      error: false
     }
   },
   components: {
@@ -70,8 +71,12 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "Gruppo creato con successo.";
+            this.headerBgVariant = "success";
+            this.error = false;
           } else {
-            this.message = "Errore durante la creazione del gruppo.";
+            this.message = "Errore durante la creazione del gruppo. Errore:" + response.data.message;
+            this.headerBgVariant = "warning";
+            this.error = true;
           }
           this.showModal = true;
         })
@@ -80,10 +85,11 @@ export default defineComponent({
           this.message = "Errore durante la creazione del gruppo. " + error.response.data.message;
           this.headerBgVariant = "warning";
           this.showModal = true;
+          this.error = true;
         });
     },
     onHidden() {
-      this.$router.back();
+      if (!this.error) this.$router.back();
     },
     updateUsersPicked(event: any) {
       this.group.members = event;

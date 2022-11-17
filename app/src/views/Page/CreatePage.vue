@@ -53,7 +53,8 @@ export default defineComponent({
       },
       message: "",
       headerBgVariant: "success",
-      showModal: false
+      showModal: false,
+      error: false
     }
   },
   components: {
@@ -66,6 +67,7 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.createElements(response.data.page.slug);
+            this.error = false;
           } else {
             this.message = "Errore durante la creazione della pagina.";
           }
@@ -76,6 +78,7 @@ export default defineComponent({
           this.message = "[ERROR_page] Errore durante la creazione della pagina. " + JSON.stringify(error);
           this.headerBgVariant = "warning";
           this.showModal = true;
+          this.error = true;
         });
     },
     createElements(page_slug: string) {
@@ -89,8 +92,12 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "pagina creata con successo.";
+            this.headerBgVariant = "success";
+            this.error = false;
           } else {
             this.message = "Errore durante la creazione della pagina.";
+            this.headerBgVariant = "warning";
+            this.error = true;
           }
           this.showModal = true;
         })
@@ -99,6 +106,7 @@ export default defineComponent({
           this.message = "[ERROR_page_elements] Errore durante la creazione della pagina. " + JSON.stringify(error);
           this.headerBgVariant = "warning";
           this.showModal = true;
+          this.error = true;
         });
     },
     onHidden() {
