@@ -83,8 +83,10 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "Pagina aggiornata con successo.";
+            this.headerBgVariant = "success";
           } else {
-            this.message = "Errore durante l'aggiornamento della pagina.";
+            this.message = "Errore durante l'aggiornamento della pagina. \nErrore: " + response.data.message;
+            this.headerBgVariant = "warning";
           }
           this.showModal = true;
         })

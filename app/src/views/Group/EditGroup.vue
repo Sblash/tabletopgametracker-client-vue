@@ -87,8 +87,10 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "Gruppo aggiornato con successo.";
+            this.headerBgVariant = "success";
           } else {
-            this.message = "Errore durante l'aggiornamento del gruppo.";
+            this.message = "Errore durante l'aggiornamento del gruppo. \nErrore: " + response.data.message;
+            this.headerBgVariant = "warning";
           }
           this.showModal = true;
         })

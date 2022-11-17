@@ -70,8 +70,10 @@ export default defineComponent({
         .then((response) => {
           if (response.data.success) {
             this.message = "Gioco aggiornato con successo.";
+            this.headerBgVariant = "success";
           } else {
-            this.message = "Errore durante l'aggiornamento del gioco.";
+            this.message = "Errore durante l'aggiornamento del gioco. \nErrore: " + response.data.message;
+            this.headerBgVariant = "warning";
           }
           this.showModal = true;
         })
