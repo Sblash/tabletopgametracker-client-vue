@@ -25,7 +25,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button type="button" class="btn btn-outline-primary" @click="updatePage()"><i class="bi bi-save"></i> Update</button>
+          <button type="button" class="btn btn-outline-primary" @click="updatePage()"><i class="bi bi-save"></i> Aggiorna</button>
         </div>
       </div>
 
