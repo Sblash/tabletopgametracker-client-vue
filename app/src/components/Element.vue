@@ -1,20 +1,26 @@
 <template>
   <div class="row">
     <div class="col-md-12">
-      <button class="btn btn-outline-primary btn-h3" data-bs-toggle="collapse" :href="getHtmlIdHashtag" role="button" aria-expanded="false" :aria-controls="getHtmlId" @click="collapse">
-        {{ element.name }} <i v-if="collapsed" class="bi bi-chevron-compact-down"></i> <i v-if="!collapsed" class="bi bi-chevron-compact-up"></i>
+      <div class="btn-group" role="group">
+        <button class="btn btn-outline-primary btn-h3" data-bs-toggle="collapse" :href="getHtmlIdHashtag" role="button" aria-expanded="false" :aria-controls="getHtmlId" @click="collapse">
+          {{ element.name }} <i v-if="collapsed" class="bi bi-chevron-compact-down"></i> <i v-if="!collapsed" class="bi bi-chevron-compact-up"></i>
         </button>
+        <button class="btn btn-outline-primary btn-view-edit" @click="changeMode()">
+          <i v-if="view_mode" class="bi bi-pencil"></i> <i v-if="!view_mode" class="bi bi-eye"></i>
+        </button>
+      </div>
       <div v-if="element.type == 'checklist'" class="col-md-12 checklist collapse multi-collapse show" :id="getHtmlId">
         <div class="checklist-container checklist-false">
-          <h5>Non completati/e</h5> <button type="button" class="btn btn-outline-primary" @click="openModal"><i class="bi bi-plus-lg"></i></button>
+          <h5>Non completati/e</h5> <button v-if="!view_mode" type="button" class="btn btn-outline-primary" @click="openModal"><i class="bi bi-plus-lg"></i></button>
           <b-form-checkbox
             v-for="(data, index) in datasFalse"
             v-model="datasFalse[index].value.value"
             :key="data"
+            :disabled="view_mode"
             @change="onChangeCheckbox(data.id, element.slug, data, index)"
           >
             {{ data.value.text }}
-            <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+            <button v-if="!view_mode" type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
           </b-form-checkbox>
         </div>
         <div class="checklist-container checklist-true">
@@ -27,10 +33,11 @@
               v-for="(data, index) in datasTrue"
               v-model="datasTrue[index].value.value"
               :key="data"
+              :disabled="view_mode"
               @change="onChangeCheckbox(data.id, element.slug, data, index)"
             >
               {{ data.value.text }}
-              <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+              <button v-if="!view_mode" type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
             </b-form-checkbox>
           </div>
         </div>
@@ -38,6 +45,7 @@
       <div v-if="element.type == 'text'" class="col-md-12 collapse multi-collapse show" :id="getHtmlId">
         <quill-editor
           :value="datas[0].value.text"
+          :disabled="view_mode"
           @change="onEditorChange(datas[0].id, element.slug, $event)"
         />
       </div>
@@ -93,6 +101,8 @@ export default defineComponent({
             }
           }
         ];
+      } else {
+        datas = this.element.datas;
       }
     }
 
@@ -104,7 +114,8 @@ export default defineComponent({
       showModal: false,
       textCheckbox: "",
       collapsed: false,
-      collapsedCompleted: true
+      collapsedCompleted: true,
+      view_mode: true
     }
   },
   computed: {
@@ -250,6 +261,9 @@ export default defineComponent({
     },
     collapseCompleted() {
       this.collapsedCompleted = !this.collapsedCompleted;
+    },
+    changeMode() {
+      this.view_mode = !this.view_mode;
     }
   }
 })
@@ -271,16 +285,25 @@ h5 {
   margin-bottom: 16px;
 }
 
-.btn-h3 {
+.btn-group > .btn-h3 {
   margin-bottom: 16px;
   color: black;
   text-align: left;
   font-size: calc(1.3rem + 0.6vw);
   font-weight: 500;
-  width: 100%;
+  flex-basis: 90%;
 }
 
 .bi-chevron-compact-down,.bi-chevron-compact-up {
   float: right;
+}
+
+.btn-group > .btn-view-edit {
+  margin-bottom: 16px;
+  flex-basis: 10%;
+}
+
+.btn-group {
+  width: 100%;
 }
 </style>
