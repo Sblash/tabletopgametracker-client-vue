@@ -1,45 +1,53 @@
 <template>
   <div class="row">
-    <h3>{{ element.name }}</h3>
-    <div v-if="element.type == 'checklist'" class="col-md-12 checklist">
-      <div class="checklist-container checklist-false">
-        <h5>Non completati/e</h5>
-        <b-form-checkbox
-          v-for="(data, index) in datasFalse"
-          v-model="datasFalse[index].value.value"
-          :key="data"
-          @change="onChangeCheckbox(data.id, element.slug, data, index)"
-        >
-          {{ data.value.text }}
-          <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
-        </b-form-checkbox>
-        <button type="button" class="btn btn-outline-primary button-add-checkbox" @click="openModal">Aggiungi checkbox</button>
+    <div class="col-md-12">
+      <button class="btn btn-outline-primary btn-h3" data-bs-toggle="collapse" :href="getHtmlIdHashtag" role="button" aria-expanded="false" :aria-controls="getHtmlId" @click="collapse">
+        {{ element.name }} <i v-if="collapsed" class="bi bi-chevron-compact-down"></i> <i v-if="!collapsed" class="bi bi-chevron-compact-up"></i>
+        </button>
+      <div v-if="element.type == 'checklist'" class="col-md-12 checklist collapse multi-collapse show" :id="getHtmlId">
+        <div class="checklist-container checklist-false">
+          <h5>Non completati/e</h5> <button type="button" class="btn btn-outline-primary" @click="openModal"><i class="bi bi-plus-lg"></i></button>
+          <b-form-checkbox
+            v-for="(data, index) in datasFalse"
+            v-model="datasFalse[index].value.value"
+            :key="data"
+            @change="onChangeCheckbox(data.id, element.slug, data, index)"
+          >
+            {{ data.value.text }}
+            <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+          </b-form-checkbox>
+        </div>
+        <div class="checklist-container checklist-true">
+          <h5>Completati/e</h5> <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse" :href="getHtmlIdCompletedHashtag" role="button" aria-expanded="false" :aria-controls="getHtmlIdCompleted" @click="collapseCompleted">
+            <i v-if="collapsedCompleted" class="bi bi-chevron-compact-down"></i>
+            <i v-if="!collapsedCompleted" class="bi bi-chevron-compact-up"></i>
+          </button>
+          <div class="collapse" :id="getHtmlIdCompleted">
+            <b-form-checkbox
+              v-for="(data, index) in datasTrue"
+              v-model="datasTrue[index].value.value"
+              :key="data"
+              @change="onChangeCheckbox(data.id, element.slug, data, index)"
+            >
+              {{ data.value.text }}
+              <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
+            </b-form-checkbox>
+          </div>
+        </div>
       </div>
-      <div class="checklist-container checklist-true">
-        <h5>Completati/e</h5>
-        <b-form-checkbox
-          v-for="(data, index) in datasTrue"
-          v-model="datasTrue[index].value.value"
-          :key="data"
-          @change="onChangeCheckbox(data.id, element.slug, data, index)"
-        >
-          {{ data.value.text }}
-          <button type="button" class="btn btn-outline-danger button-delete-checkbox" @click="deleteData(data, index)"><i class="bi bi-trash"></i></button>
-        </b-form-checkbox>
+      <div v-if="element.type == 'text'" class="col-md-12 collapse multi-collapse show" :id="getHtmlId">
+        <quill-editor
+          :value="datas[0].value.text"
+          @change="onEditorChange(datas[0].id, element.slug, $event)"
+        />
       </div>
+      <b-modal v-model="showModal" title="Aggiungi checkbox" ok-only ok-title="Crea" centered @ok="addCheckbox">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">Testo checkbox</span>
+          <input v-model="textCheckbox" type="text" class="form-control">
+        </div>
+      </b-modal>
     </div>
-    <div v-if="element.type == 'text'" class="col-md-12">
-      <quill-editor
-        :value="datas[0].value.text"
-        @change="onEditorChange(datas[0].id, element.slug, $event)"
-      />
-    </div>
-    <b-modal v-model="showModal" title="Aggiungi checkbox" ok-only ok-title="Crea" centered @ok="addCheckbox">
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Testo checkbox</span>
-        <input v-model="textCheckbox" type="text" class="form-control">
-      </div>
-    </b-modal>
   </div>
 </template>
 
@@ -94,7 +102,27 @@ export default defineComponent({
       datas: datas,
       timer: timer,
       showModal: false,
-      textCheckbox: ""
+      textCheckbox: "",
+      collapsed: false,
+      collapsedCompleted: true
+    }
+  },
+  computed: {
+    getHtmlId() {
+      let slug = this.element ? this.element.slug : "";
+      return "checklist_" + slug;
+    },
+    getHtmlIdHashtag() {
+      let slug = this.element ? this.element.slug : "";
+      return "#checklist_" + slug;
+    },
+    getHtmlIdCompleted() {
+      let slug = this.element ? this.element.slug : "";
+      return "checklist_" + slug + "_completed";
+    },
+    getHtmlIdCompletedHashtag() {
+      let slug = this.element ? this.element.slug : "";
+      return "#checklist_" + slug + "_completed";
     }
   },
   methods: {
@@ -216,6 +244,12 @@ export default defineComponent({
 
       this.datasFalse.push(data)
       this.createData(slug, data.value);
+    },
+    collapse() {
+      this.collapsed = !this.collapsed;
+    },
+    collapseCompleted() {
+      this.collapsedCompleted = !this.collapsedCompleted;
     }
   }
 })
@@ -225,10 +259,7 @@ export default defineComponent({
 h5 {
   color: grey;
   margin-bottom: 16px;
-}
-
-.button-add-checkbox {
-  margin-top: 16px;
+  display: inline-block;
 }
 
 .button-delete-checkbox {
@@ -238,5 +269,18 @@ h5 {
 .checklist-true {
   margin-top: 16px;
   margin-bottom: 16px;
+}
+
+.btn-h3 {
+  margin-bottom: 16px;
+  color: black;
+  text-align: left;
+  font-size: calc(1.3rem + 0.6vw);
+  font-weight: 500;
+  width: 100%;
+}
+
+.bi-chevron-compact-down,.bi-chevron-compact-up {
+  float: right;
 }
 </style>
