@@ -27,8 +27,8 @@ export default defineComponent({
 <style scoped>
 .page {
   border-radius: 20px;
-  background-color: lightgoldenrodyellow;
-  box-shadow: 1px 1px 5px;
+  border: 1px solid grey;
+  background-color: white;
   padding: 8px;
   max-height: 90px;
   cursor: pointer;

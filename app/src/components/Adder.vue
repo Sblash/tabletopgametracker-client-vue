@@ -1,7 +1,7 @@
 <template>
   <div class="row adder" @click="goToCreatePath(path)">
     <div class="col-md-12">
-      <span>+ {{ text }}</span>
+      <span>{{ text }}</span>
     </div>
   </div>
 </template>
@@ -28,8 +28,8 @@ export default defineComponent({
 <style scoped>
 .adder {
   border-radius: 20px;
-  background-color: lightgoldenrodyellow;
-  box-shadow: 1px 1px 5px;
+  border: 1px dashed grey;
+  background-color: lightgrey;
   padding: 8px;
   max-height: 90px;
   font-size: 30px;
