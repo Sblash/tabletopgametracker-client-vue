@@ -5,11 +5,14 @@
         <span class="input-group-text" id="inputGroup-sizing-default">Nome elemento</span>
         <input v-model="element.name" @change="update" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
       </div>
-      <select @change="update" v-model="element.type" class="form-select" aria-label="Default select example">
-        <option selected>Seleziona tipologia di elemento</option>
-        <option value="checklist">Checklist</option>
-        <option value="text">Testo</option>
-      </select>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Tipologia elemento</label>
+        <select @change="update" v-model="element.type" class="form-select" aria-label="Default select example">
+          <option selected>Seleziona tipologia di elemento</option>
+          <option value="checklist">Checklist</option>
+          <option value="text">Testo</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
