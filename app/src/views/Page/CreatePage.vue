@@ -11,6 +11,7 @@
             <span class="input-group-text" id="inputGroup-sizing-default">Nome pagina</span>
             <input v-model="page.name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
+          <b-form-checkbox v-model="page.is_private">Pagina privata</b-form-checkbox>
         </div>
       </div>
       <div class="row">
@@ -45,11 +46,16 @@ export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'CreatePage',
   data() {
+    let structure: Structure = {
+      rows: []
+    };
+
     return {
       page: {
         name: "",
         game_slug: "",
-        structure: {}
+        is_private: false,
+        structure: structure
       },
       message: "",
       headerBgVariant: "success",
