@@ -38,5 +38,11 @@ export default defineComponent({
 .page_name {
   font-size: 25px;
   line-height: 2.2;
+  width: 100%;
+  display: block;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
